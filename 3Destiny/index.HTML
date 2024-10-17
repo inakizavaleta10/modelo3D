@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualización de Modelo 3D</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    #ar-prompt {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+    }
+    model-viewer {
+      width: 100%;
+      height: 80vh;
+      max-width: 600px;
+    }
+    .progress-bar {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 5px;
+      background-color: rgba(255, 255, 255, 0.7);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <model-viewer 
+    src="./3D.glb/Heladera_textura (1) (5).glb" 
+    ar 
+    ar-modes="scene-viewer webxr quick-look" 
+    camera-controls 
+    tone-mapping="neutral" 
+    poster="poster.jpeg" 
+    shadow-intensity="1"
+    onprogress="updateProgressBar(event)">
+    
+    <div class="progress-bar" slot="progress-bar">
+      <div class="update-bar"></div>
+    </div>
+    
+  </model-viewer>
+
+  <script>
+    const progressBar = document.querySelector('.progress-bar');
+    const updateBar = document.querySelector('.update-bar');
+
+    function updateProgressBar(event) {
+      const progress = event.detail.totalProgress;
+      progressBar.style.display = progress < 1 ? 'block' : 'none';
+      updateBar.style.width = `${progress * 100}%`;
+    }
+  </script>
+</body>
+</html>
